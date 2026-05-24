@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اكتشف مجالك التقني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d1a;--bg2:#0d1525;--bg3:#111e33;
+  --card:#141f35;--card2:#1a2840;
+  --border:rgba(100,180,255,0.1);--border2:rgba(100,180,255,0.22);
+  --blue:#4fa3f7;--purple:#9b8df8;--green:#3ee8aa;--pink:#f472d0;
+  --amber:#fbbf24;--red:#f87171;--teal:#2de4d4;--orange:#fb923c;
+  --text:#ddeeff;--text2:#8aa8cc;--text3:#4a6688;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Baloo Bhaijaan 2',sans-serif;
+  min-height:100vh;overflow-x:hidden;
+  font-size:16px; line-height:1.6;
+}
+/* grid */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(79,163,247,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,163,247,0.04) 1px,transparent 1px);
+  background-size:52px 52px;pointer-events:none;z-index:0;
+}
+/* orbs */
+.o{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;opacity:0.28;}
+.o1{width:500px;height:500px;background:radial-gradient(circle,#1a3a8a,transparent);top:-120px;right:-120px;}
+.o2{width:350px;height:350px;background:radial-gradient(circle,#0a4a35,transparent);bottom:-80px;left:-80px;}
+.o3{width:250px;height:250px;background:radial-gradient(circle,#3a1a6a,transparent);top:45%;left:48%;}
+
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 18px;}
+
+/* ─── HEADER ─── */
+header{padding:56px 0 36px;text-align:center;}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(79,163,247,0.1);
+  border:1px solid rgba(79,163,247,0.28);
+  color:var(--blue);
+  font-family:'Fredoka',sans-serif;
+  font-size:13px;letter-spacing:1.5px;font-weight:500;
+  padding:5px 16px;border-radius:100px;margin-bottom:18px;
+}
+h1{
+  font-family:'Baloo Bhaijaan 2',sans-serif;
+  font-size:clamp(2rem,6vw,3.4rem);font-weight:800;
+  line-height:1.15;margin-bottom:14px;
+  background:linear-gradient(130deg,#ddeeff 0%,#4fa3f7 45%,#9b8df8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.sub{color:var(--text2);font-size:15px;line-height:1.7;max-width:500px;margin:0 auto 12px;}
+.meta{
+  font-family:'Fredoka',sans-serif;
+  font-size:13px;color:var(--text3);margin-top:10px;
+}
+.meta b{color:var(--blue);}
+
+/* ─── PROGRESS ─── */
+.pgrow{display:flex;align-items:center;gap:12px;margin:28px 0 8px;}
+.pgbar{flex:1;height:4px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;}
+.pgfill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.pgtxt{font-family:'Fredoka',sans-serif;font-size:13px;color:var(--text3);white-space:nowrap;}
+
+/* ─── QUESTION ─── */
+.qsec{display:none;animation:up .35s ease;}
+.qsec.active{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.qnum{font-family:'Fredoka',sans-serif;font-size:12px;color:var(--blue);letter-spacing:2px;margin-bottom:8px;font-weight:500;}
+.qtxt{font-size:clamp(17px,3vw,20px);font-weight:700;line-height:1.5;margin-bottom:24px;color:#eef4ff;}
+
+/* ─── OPTIONS ─── */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:30px;}
+.opt{
+  position:relative;cursor:pointer;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:14px;padding:16px 16px 14px;
+  transition:all .2s ease;overflow:hidden;
+}
+.opt::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(79,163,247,0.07),transparent);
+  opacity:0;transition:opacity .2s;border-radius:12px;
+}
+.opt:hover{border-color:var(--border2);transform:translateY(-2px);}
+.opt:hover::after{opacity:1;}
+.opt.sel{border-color:var(--blue);background:rgba(79,163,247,0.09);}
+.opt.sel::after{opacity:1;}
+.opt-em{font-size:26px;display:block;margin-bottom:7px;line-height:1;}
+.opt-txt{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;}
+.dot{
+  position:absolute;top:10px;left:10px;
+  width:17px;height:17px;border-radius:50%;
+  border:1.5px solid var(--text3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;transition:all .2s;
+}
+.opt.sel .dot{background:var(--blue);border-color:var(--blue);color:#000;font-weight:700;}
+
+/* ─── BUTTONS ─── */
+.nav{display:flex;gap:8px;justify-content:flex-end;}
+.btn{
+  padding:11px 24px;border-radius:10px;
+  border:1.5px solid var(--border2);
+  font-family:'Baloo Bhaijaan 2',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;
+  transition:all .2s;background:transparent;color:var(--text);
+}
+.btn:hover{background:rgba(255,255,255,0.05);}
+.btn-p{
+  background:linear-gradient(130deg,#1a4fc4,#4f3dc8);
+  border-color:transparent;color:white;
+}
+.btn-p:hover{opacity:.9;transform:translateY(-1px);}
+.btn:disabled{opacity:.28;cursor:not-allowed;transform:none!important;}
+
+/* ─── RESULTS ─── */
+#results{display:none;}
+.rhead{text-align:center;padding:36px 0 26px;}
+.rtitle{
+  font-size:clamp(1.5rem,5vw,2.2rem);font-weight:800;margin-bottom:8px;
+  background:linear-gradient(130deg,#3ee8aa,#4fa3f7);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.rsub{color:var(--text2);font-size:15px;margin-bottom:6px;}
+.topmatch{
+  background:linear-gradient(135deg,rgba(79,163,247,0.07),rgba(155,141,248,0.07));
+  border:1.5px solid rgba(79,163,247,0.28);
+  border-radius:18px;padding:26px;margin-bottom:24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.topmatch::before{
+  content:'';position:absolute;top:-50px;right:-50px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,163,247,0.1),transparent);
+}
+.mlabel{font-family:'Fredoka',sans-serif;font-size:12px;color:var(--blue);letter-spacing:2px;margin-bottom:10px;font-weight:500;}
+.micon{font-size:52px;display:block;margin-bottom:8px;}
+.mname{font-size:24px;font-weight:800;color:#eef4ff;margin-bottom:6px;}
+.mdesc{color:var(--text2);font-size:14px;line-height:1.65;max-width:400px;margin:0 auto;}
+.mpct{
+  font-family:'Fredoka',sans-serif;
+  font-size:52px;font-weight:700;color:var(--blue);
+  display:block;margin:14px 0 2px;
+}
+.btitle{font-size:13px;font-weight:600;color:var(--text2);margin:22px 0 12px;letter-spacing:.4px;}
+.bitem{margin-bottom:9px;}
+.bhead{display:flex;justify-content:space-between;margin-bottom:4px;}
+.bname{font-size:13px;font-weight:600;color:var(--text);}
+.bpct{font-family:'Fredoka',sans-serif;font-size:12px;color:var(--text2);}
+.btrack{height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;}
+.bfill{height:100%;border-radius:3px;transition:width 1.1s cubic-bezier(.4,0,.2,1);}
+.ract{display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap;}
+.div{height:1px;background:var(--border);margin:22px 0;}
+
+/* ─── FOOTER ─── */
+footer{text-align:center;padding:38px 0 28px;border-top:1px solid var(--border);margin-top:48px;}
+.fname{
+  font-family:'Fredoka',sans-serif;
+  font-size:22px;font-weight:700;
+  background:linear-gradient(135deg,#4fa3f7,#9b8df8,#f472d0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  display:block;margin-bottom:4px;
+  letter-spacing:.5px;
+}
+.ftag{
+  font-family:'Fredoka',sans-serif;
+  font-size:15px;font-weight:500;color:var(--text3);letter-spacing:.5px;
+}
+@media(max-width:520px){
+  .opts{grid-template-columns:1fr;}
+  .nav{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div class="o o1"></div><div class="o o2"></div><div class="o o3"></div>
+<div class="wrap">
+
+<header>
+  <div class="chip">✦ اختبار التوجه التقني</div>
+  <h1>اكتشف مجالك التقني</h1>
+  <p class="sub">25 سؤال عن شخصيتك وحياتك اليومية — بدون أسئلة تقنية</p>
+
+</header>
+
+<div id="quiz">
+<div class="pgrow">
+  <div class="pgbar"><div class="pgfill" id="pgf" style="width:0%"></div></div>
+  <div class="pgtxt" id="pgt">0 / 25</div>
+</div>
+
+<!-- Q1 -->
+<div class="qsec active" data-q="0">
+  <div class="qnum">QUESTION 01 / 25</div>
+  <div class="qtxt">في يوم إجازة كاملة بدون أي التزامات — ايش تجد نفسك تعمله تلقائياً؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🕵️</span><div class="opt-txt">أحل ألغاز وأتابع قضايا غامضة</div></div>
+    <div class="opt" data-w='{"dev":2,"web":1,"mob":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🛠️</span><div class="opt-txt">أجرب أبني شيء بيدي — حتى لو بدون سبب</div></div>
+    <div class="opt" data-w='{"data":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📖</span><div class="opt-txt">أقرأ وأبحث وأجمع معلومات عن موضوع يشغل بالي</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">👥</span><div class="opt-txt">أرتّب تجمع أو رحلة مع ناس أحبهم</div></div>
+  </div>
+  <div class="nav"><button class="btn btn-p" onclick="nxt()" id="nb0" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q2 -->
+<div class="qsec" data-q="1">
+  <div class="qnum">QUESTION 02 / 25</div>
+  <div class="qtxt">شيء عطل في البيت — تلفزيون، غسّالة، راوتر — ايش أول تصرفك؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"infra":2,"devops":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📋</span><div class="opt-txt">أفتش في الأخطاء خطوة بخطوة بمنهجية</div></div>
+    <div class="opt" data-w='{"dev":2,"eng":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔩</span><div class="opt-txt">أفتحه وأشوف شو بداخله — حتى لو ما أعرف</div></div>
+    <div class="opt" data-w='{"data":1,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎥</span><div class="opt-txt">أدور فيديو يوتيوب ويشرح لي كيف أصلحه</div></div>
+    <div class="opt" data-w='{"uiux":2,"sec":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📱</span><div class="opt-txt">أبلّغ المسؤول وأوثّق المشكلة بالصور</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb1" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q3 -->
+<div class="qsec" data-q="2">
+  <div class="qnum">QUESTION 03 / 25</div>
+  <div class="qtxt">أي نوع الأفلام والمسلسلات يجذبك أكثر؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔍</span><div class="opt-txt">الجرائم والتحقيقات وكشف الأسرار</div></div>
+    <div class="opt" data-w='{"ai":2,"emerging":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🚀</span><div class="opt-txt">الخيال العلمي والمستقبل والتقنية</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💬</span><div class="opt-txt">الدراما الإنسانية وقصص الناس</div></div>
+    <div class="opt" data-w='{"dev":1,"eng":1,"devops":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚡</span><div class="opt-txt">الأكشن والمغامرات والإثارة</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb2" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q4 -->
+<div class="qsec" data-q="3">
+  <div class="qnum">QUESTION 04 / 25</div>
+  <div class="qtxt">في مشروع جماعي، ايش دورك اللي تجد نفسك فيه دايماً؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"pm":2,"uiux":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🗺️</span><div class="opt-txt">أقسّم المهام وأتابع التقدم</div></div>
+    <div class="opt" data-w='{"ai":1,"data":1,"emerging":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💡</span><div class="opt-txt">أطرح الأفكار الجديدة وأشجّع على التجريب</div></div>
+    <div class="opt" data-w='{"sec":2,"data":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔎</span><div class="opt-txt">أراجع التفاصيل وأتأكد من الدقة</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🤝</span><div class="opt-txt">أحل الخلافات وأوصّل بين الناس</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb3" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q5 -->
+<div class="qsec" data-q="4">
+  <div class="qnum">QUESTION 05 / 25</div>
+  <div class="qtxt">لو تلعب لعبة فيديو، ايش تختار؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🕹️</span><div class="opt-txt">لعبة تحقيق تكتشف فيها المجرم</div></div>
+    <div class="opt" data-w='{"dev":1,"eng":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🏗️</span><div class="opt-txt">لعبة بناء وتصميم مدن أو أشياء</div></div>
+    <div class="opt" data-w='{"pm":2,"uiux":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚔️</span><div class="opt-txt">لعبة تكتيكية إدارة موارد وفرق</div></div>
+    <div class="opt" data-w='{"data":1,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">♟️</span><div class="opt-txt">لعبة ذكاء وتفكير وتحليل</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb4" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q6 -->
+<div class="qsec" data-q="5">
+  <div class="qnum">QUESTION 06 / 25</div>
+  <div class="qtxt">ايش أكثر شيء يُشعرك بالإنجاز الحقيقي؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎯</span><div class="opt-txt">لما اكتشفت شيء كان مخفياً ولا أحد لاحظه</div></div>
+    <div class="opt" data-w='{"dev":2,"mob":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🏆</span><div class="opt-txt">لما بنيت شيء من الصفر ورأيته يعمل</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">😊</span><div class="opt-txt">لما ساعدت شخصاً يفهم شيء كان صعباً عليه</div></div>
+    <div class="opt" data-w='{"infra":2,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">✨</span><div class="opt-txt">لما حوّلت فوضى لنظام واضح ومنظّم</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb5" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q7 -->
+<div class="qsec" data-q="6">
+  <div class="qnum">QUESTION 07 / 25</div>
+  <div class="qtxt">ايش أكثر شيء تتابعه في الأخبار والسوشيال ميديا؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":1,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🕵️</span><div class="opt-txt">القضايا الغامضة والجرائم والاحتيال</div></div>
+    <div class="opt" data-w='{"ai":2,"emerging":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔭</span><div class="opt-txt">الاكتشافات العلمية والتقنية الجديدة</div></div>
+    <div class="opt" data-w='{"pm":2,"uiux":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📊</span><div class="opt-txt">الأعمال والاقتصاد وقصص النجاح</div></div>
+    <div class="opt" data-w='{"data":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌍</span><div class="opt-txt">إحصاءات المجتمع والدراسات والأبحاث</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb6" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q8 -->
+<div class="qsec" data-q="7">
+  <div class="qnum">QUESTION 08 / 25</div>
+  <div class="qtxt">كيف تتخذ قراراتك المهمة؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"data":3,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📉</span><div class="opt-txt">أجمع أرقام ومعلومات وأحلل قبل ما أقرر</div></div>
+    <div class="opt" data-w='{"dev":1,"eng":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚡</span><div class="opt-txt">أثق بتجربتي وحدسي وأتصرف</div></div>
+    <div class="opt" data-w='{"pm":2,"uiux":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🗣️</span><div class="opt-txt">أستشير الناس المتأثرين بالقرار</div></div>
+    <div class="opt" data-w='{"sec":2,"infra":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🛡️</span><div class="opt-txt">أفكّر في أسوأ سيناريو وكيف أتجنبه</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb7" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q9 -->
+<div class="qsec" data-q="8">
+  <div class="qnum">QUESTION 09 / 25</div>
+  <div class="qtxt">أي جملة تصف طريقة تفكيرك بشكل أدق؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"data":2,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔬</span><div class="opt-txt">«الأرقام تُخبر ما لا تُخبره الكلمات»</div></div>
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎭</span><div class="opt-txt">«دايم أفكر: وكيف ممكن يُساء استخدام هذا؟»</div></div>
+    <div class="opt" data-w='{"uiux":3,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💭</span><div class="opt-txt">«أبدأ من الإنسان وكيف يشعر»</div></div>
+    <div class="opt" data-w='{"devops":2,"infra":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚙️</span><div class="opt-txt">«كل شيء يمكن أتمتته يجب أتمتته»</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb8" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q10 -->
+<div class="qsec" data-q="9">
+  <div class="qnum">QUESTION 10 / 25</div>
+  <div class="qtxt">كيف تتعلم بشكل أفضل؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"dev":2,"devops":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🛠️</span><div class="opt-txt">بالتجربة والتطبيق المباشر — أجرّب وأخطئ</div></div>
+    <div class="opt" data-w='{"data":2,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📚</span><div class="opt-txt">بالقراءة المعمّقة والبحث الذاتي</div></div>
+    <div class="opt" data-w='{"uiux":1,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">👁️</span><div class="opt-txt">بمشاهدة المحترفين وتقليدهم</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💬</span><div class="opt-txt">بالنقاش والتعلم مع الآخرين</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb9" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q11 -->
+<div class="qsec" data-q="10">
+  <div class="qnum">QUESTION 11 / 25</div>
+  <div class="qtxt">صديقك عنده مشكلة مع شخص ثاني وطلب رأيك — كيف تتعامل؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"data":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚖️</span><div class="opt-txt">أسمع الطرفين وأحلل الموقف بموضوعية</div></div>
+    <div class="opt" data-w='{"sec":1,"eng":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎯</span><div class="opt-txt">أعطيه رأيي المباشر حتى لو ما يعجبه</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌉</span><div class="opt-txt">أرتّب لقاء بينهم وأتوسط</div></div>
+    <div class="opt" data-w='{"dev":1,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🗺️</span><div class="opt-txt">أساعده يرسم الحلول وهو يختار</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb10" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q12 -->
+<div class="qsec" data-q="11">
+  <div class="qnum">QUESTION 12 / 25</div>
+  <div class="qtxt">ايش أكثر شيء يُزعجك في بيئة العمل أو الدراسة؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"infra":2,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌪️</span><div class="opt-txt">الفوضى وغياب النظام والتنظيم</div></div>
+    <div class="opt" data-w='{"data":2,"sec":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌫️</span><div class="opt-txt">المعلومات الغامضة والقرارات بدون بيانات</div></div>
+    <div class="opt" data-w='{"dev":2,"eng":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🐌</span><div class="opt-txt">الإهمال والاستهتار بالجودة</div></div>
+    <div class="opt" data-w='{"uiux":1,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔄</span><div class="opt-txt">الاجتماعات المفرطة وكثرة التنسيق</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb11" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q13 -->
+<div class="qsec" data-q="12">
+  <div class="qnum">QUESTION 13 / 25</div>
+  <div class="qtxt">ايش نوع الكتب والمحتوى اللي تجذبك؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"pm":2,"uiux":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🧠</span><div class="opt-txt">علم النفس وكيف يفكر البشر ويتصرفون</div></div>
+    <div class="opt" data-w='{"data":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📐</span><div class="opt-txt">الرياضيات والإحصاء والمنطق</div></div>
+    <div class="opt" data-w='{"sec":1,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔐</span><div class="opt-txt">التحقيقات الجنائية والجرائم والمخترقين</div></div>
+    <div class="opt" data-w='{"dev":1,"eng":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚙️</span><div class="opt-txt">الهندسة وكيف تُبنى الأنظمة والآلات</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb12" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q14 -->
+<div class="qsec" data-q="13">
+  <div class="qnum">QUESTION 14 / 25</div>
+  <div class="qtxt">كيف تتعامل مع الفوضى؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"infra":2,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🧹</span><div class="opt-txt">تضايقني وأبدأ أنظّمها فوراً</div></div>
+    <div class="opt" data-w='{"sec":2,"data":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔭</span><div class="opt-txt">تحفّزني — أبحث عن نظام خفي فيها</div></div>
+    <div class="opt" data-w='{"dev":2,"emerging":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌊</span><div class="opt-txt">تريحني — أعمل بشكل أفضل وسط الفوضى</div></div>
+    <div class="opt" data-w='{"pm":2,"eng":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🛡️</span><div class="opt-txt">أتجنبها من البداية بالتخطيط المسبق</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb13" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q15 -->
+<div class="qsec" data-q="14">
+  <div class="qnum">QUESTION 15 / 25</div>
+  <div class="qtxt">في رحلة لمدينة جديدة، ايش أول شيء تلاحظه وتنجذب إليه؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🏙️</span><div class="opt-txt">تصميم المدينة وكيف صُمّمت للناس</div></div>
+    <div class="opt" data-w='{"data":1,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📊</span><div class="opt-txt">كيف تتحرك الأنظمة: المرور، الناس، الخدمات</div></div>
+    <div class="opt" data-w='{"sec":2,"cyber":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔐</span><div class="opt-txt">نقاط الأمن والمراقبة والتحكم</div></div>
+    <div class="opt" data-w='{"emerging":2,"dev":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">✨</span><div class="opt-txt">التقنيات الجديدة والشوارع الذكية</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb14" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q16 -->
+<div class="qsec" data-q="15">
+  <div class="qnum">QUESTION 16 / 25</div>
+  <div class="qtxt">لما تُخطئ في شيء مهم، ايش أول ردة فعلك؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"data":2,"devops":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📝</span><div class="opt-txt">أوثّق الخطأ وأحلل ليش صار</div></div>
+    <div class="opt" data-w='{"dev":2,"eng":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🚀</span><div class="opt-txt">أصحح الخطأ فوراً بأي طريقة</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💬</span><div class="opt-txt">أتواصل مع المتأثرين وأعتذر أولاً</div></div>
+    <div class="opt" data-w='{"sec":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔍</span><div class="opt-txt">أرجع للأساس وأفهم ليش كان تفكيري غلط</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb15" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q17 -->
+<div class="qsec" data-q="16">
+  <div class="qnum">QUESTION 17 / 25</div>
+  <div class="qtxt">في وقت الانتظار — دور في المطار أو طابور — ايش تعمل؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">👀</span><div class="opt-txt">أراقب الناس وأتخيّل قصصهم</div></div>
+    <div class="opt" data-w='{"pm":2,"dev":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📋</span><div class="opt-txt">أخطّط لمشاريع قادمة أو أراجع قوائمي</div></div>
+    <div class="opt" data-w='{"sec":2,"data":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🧩</span><div class="opt-txt">أحل ألغاز أو أقرأ مقالات تقنية</div></div>
+    <div class="opt" data-w='{"ai":1,"emerging":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎧</span><div class="opt-txt">أستمع لبودكاست علمي أو تقني</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb16" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q18 -->
+<div class="qsec" data-q="17">
+  <div class="qnum">QUESTION 18 / 25</div>
+  <div class="qtxt">لو تصف نفسك بكلمة واحدة، ايش تختار؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"infra":2,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📐</span><div class="opt-txt">منظَّم — كل شيء في مكانه</div></div>
+    <div class="opt" data-w='{"ai":2,"data":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔭</span><div class="opt-txt">فضولي — دايم عندي أسئلة</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💙</span><div class="opt-txt">متعاطف — أحس بما يشعر به الآخرون</div></div>
+    <div class="opt" data-w='{"sec":2,"eng":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎯</span><div class="opt-txt">دقيق — أهتم بالتفاصيل الصغيرة</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb17" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q19 -->
+<div class="qsec" data-q="18">
+  <div class="qnum">QUESTION 19 / 25</div>
+  <div class="qtxt">ايش نوع الناس اللي تستمتع بالعمل معهم أكثر؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"data":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔬</span><div class="opt-txt">الدقيقون اللي يهتمون بكل تفصيلة</div></div>
+    <div class="opt" data-w='{"emerging":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💡</span><div class="opt-txt">المبدعون اللي يطرحون أفكاراً غريبة</div></div>
+    <div class="opt" data-w='{"dev":2,"devops":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🏋️</span><div class="opt-txt">المنجزون اللي يُسلّمون في الوقت دايماً</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">❤️</span><div class="opt-txt">الإنسانيون اللي يهتمون بأثر العمل على الناس</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb18" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q20 -->
+<div class="qsec" data-q="19">
+  <div class="qnum">QUESTION 20 / 25</div>
+  <div class="qtxt">لو تختار مشروع شخصي تعمل عليه سنة كاملة، ايش تختار؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🕵️</span><div class="opt-txt">مشروع يكشف حقيقة أو يحل لغزاً حقيقياً</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌱</span><div class="opt-txt">مشروع ينفع مجموعة من الناس ويُحسّن حياتهم</div></div>
+    <div class="opt" data-w='{"dev":2,"mob":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🏗️</span><div class="opt-txt">مشروع يبني شيئاً ملموساً يراه الجميع</div></div>
+    <div class="opt" data-w='{"emerging":2,"ai":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🚀</span><div class="opt-txt">مشروع في مجال لم يُستكشف بعد</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb19" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q21 -->
+<div class="qsec" data-q="20">
+  <div class="qnum">QUESTION 21 / 25</div>
+  <div class="qtxt">في لعبة استراتيجية، ايش يصف أسلوبك؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"pm":2,"infra":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🗺️</span><div class="opt-txt">أخطّط للمدى البعيد وأحفظ مواردي</div></div>
+    <div class="opt" data-w='{"cyber":2,"sec":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚡</span><div class="opt-txt">هجوم مباغت وسريع قبل ما يستعدّوا</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🤝</span><div class="opt-txt">أبني تحالفات وأتفاوض مع الجميع</div></div>
+    <div class="opt" data-w='{"data":2,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔍</span><div class="opt-txt">أدرس حركات خصمي وأتكيّف معها</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb20" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q22 -->
+<div class="qsec" data-q="21">
+  <div class="qnum">QUESTION 22 / 25</div>
+  <div class="qtxt">ايش تحس فيه لما تجد شيء معطّلاً لا أحد يعرف سببه؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"data":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">😈</span><div class="opt-txt">تحدٍّ ممتع — أريد أكتشف السبب</div></div>
+    <div class="opt" data-w='{"devops":2,"infra":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔥</span><div class="opt-txt">ضغط — لازم يُحل الآن بسرعة</div></div>
+    <div class="opt" data-w='{"eng":2,"dev":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎓</span><div class="opt-txt">فرصة تعلّم — أريد أفهم كيف يشتغل</div></div>
+    <div class="opt" data-w='{"pm":2,"uiux":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">😟</span><div class="opt-txt">قلق — أفكّر في تأثيره على باقي الأشياء</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb21" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q23 -->
+<div class="qsec" data-q="22">
+  <div class="qnum">QUESTION 23 / 25</div>
+  <div class="qtxt">لو فرصة تدرس شيء جديد تماماً — ايش تختار؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"uiux":2,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🧠</span><div class="opt-txt">علم النفس وسلوك الإنسان</div></div>
+    <div class="opt" data-w='{"data":2,"ai":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔢</span><div class="opt-txt">الاقتصاد والإحصاء والنمذجة</div></div>
+    <div class="opt" data-w='{"uiux":2,"dev":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🎨</span><div class="opt-txt">الفنون والتصميم والجماليات</div></div>
+    <div class="opt" data-w='{"sec":1,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚖️</span><div class="opt-txt">القانون والأنظمة والسياسة</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb22" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q24 -->
+<div class="qsec" data-q="23">
+  <div class="qnum">QUESTION 24 / 25</div>
+  <div class="qtxt">ايش أكثر شيء تتمنى تقوله عن نفسك بعد 10 سنوات؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"sec":2,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🦸</span><div class="opt-txt">«حللت مشكلات لم يقدر عليها أحد»</div></div>
+    <div class="opt" data-w='{"dev":2,"mob":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌍</span><div class="opt-txt">«بنيت شيئاً يستخدمه الملايين»</div></div>
+    <div class="opt" data-w='{"infra":2,"devops":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">⚓</span><div class="opt-txt">«أنظمتي لم تتوقف لحظة واحدة»</div></div>
+    <div class="opt" data-w='{"uiux":2,"pm":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">💛</span><div class="opt-txt">«الناس يحبون ما بنيته لأنه فهمهم»</div></div>
+  </div>
+  <div class="nav"><button class="btn" onclick="prv()">→ السابق</button><button class="btn btn-p" onclick="nxt()" id="nb23" disabled>التالي ←</button></div>
+</div>
+
+<!-- Q25 -->
+<div class="qsec" data-q="24">
+  <div class="qnum">QUESTION 25 / 25</div>
+  <div class="qtxt">آخر سؤال — ايش أكثر شيء أثار فضولك مؤخراً وبحثت عنه؟</div>
+  <div class="opts">
+    <div class="opt" data-w='{"ai":3,"ml":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🤖</span><div class="opt-txt">كيف تعمل نماذج الذكاء الاصطناعي من الداخل</div></div>
+    <div class="opt" data-w='{"sec":3,"cyber":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🔓</span><div class="opt-txt">قصة اختراق حقيقي أو عملية تجسس</div></div>
+    <div class="opt" data-w='{"emerging":3,"iot":1}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">🌌</span><div class="opt-txt">الحوسبة الكمية أو تقنية مستقبلية</div></div>
+    <div class="opt" data-w='{"data":2,"dev":2}' onclick="pick(this)"><span class="dot"></span><span class="opt-em">📱</span><div class="opt-txt">كيف صُمّم تطبيق أو منتج مشهور</div></div>
+  </div>
+  <div class="nav">
+    <button class="btn" onclick="prv()">→ السابق</button>
+    <button class="btn btn-p" onclick="showRes()" id="nb24" disabled>🔍 اكتشف مجالك</button>
+  </div>
+</div>
+
+</div><!-- /quiz -->
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="rhead">
+    <div class="chip">✦ نتيجتك</div>
+    <div class="rtitle" id="rtitle">مجالك المثالي</div>
+    <p class="rsub">بناءً على شخصيتك وطريقة تفكيرك</p>
+  </div>
+  <div class="topmatch">
+    <div class="mlabel">المجال الأول ✦</div>
+    <span class="micon" id="micon">🛡️</span>
+    <div class="mname" id="mname">—</div>
+    <span class="mpct" id="mpct">—</span>
+    <p class="mdesc" id="mdesc">—</p>
+  </div>
+  <p class="btitle">توزيع كامل ميولك التقنية</p>
+  <div id="barsbox"></div>
+  <div class="div"></div>
+  <div class="ract">
+    <button class="btn btn-p" onclick="restart()">🔄 أعد الاختبار</button>
+  </div>
+</div>
+
+<footer>
+  <div class="ftag">Created by Mohammad Albadyea</div>
+</footer>
+</div>
+
+<script>
+const F={
+  sec:    {l:"الأمن السيبراني",    i:"🛡️", c:"#f87171", d:"تفكيرك يشبه المحقق — تبحث عن الثغرات والأخطاء قبل أن يجدها أحد. الأمن السيبراني يحتاج بالضبط هذا العقل التحليلي الذي لا يثق بالظاهر."},
+  cyber:  {l:"الأمن الهجومي",     i:"💣", c:"#fb923c", d:"اختبار الاختراق وصيد الثغرات أكثر إثارة من الدفاع عندك. تفكيرك هجومي بامتياز — تسأل دايماً: كيف ممكن يُخترق هذا؟"},
+  ai:     {l:"الذكاء الاصطناعي", i:"🤖", c:"#9b8df8", d:"يستهويك كيف تتعلم الآلات وتتنبأ. عقلك يميل للنماذج الرياضية والأنماط الخفية في البيانات."},
+  data:   {l:"علم البيانات",      i:"📊", c:"#4fa3f7", d:"البيانات بالنسبة لك ليست أرقام — هي قصص لم تُحكَ بعد. تحب تحليل الأنماط واستخلاص الإجابات من الأرقام."},
+  ml:     {l:"تعلم الآلة",        i:"🧠", c:"#a78bfa", d:"مفتون بكيف تتعلم الأنظمة من تلقاء نفسها. الخوارزميات التي تكتشف الأنماط دون برمجة صريحة تشدّ تفكيرك."},
+  dev:    {l:"تطوير البرمجيات",   i:"💻", c:"#3ee8aa", d:"تحب بناء الأشياء من الصفر. الكود بالنسبة لك أداة إبداع — تريد ترى نتيجة عملك سريعاً وملموساً."},
+  eng:    {l:"هندسة البرمجيات",   i:"🏛️", c:"#60a5fa", d:"ما يكفيك أن يعمل الكود — تريده أن يصمد مع مرور الوقت وعند الضغط. التفكير الهندسي الأعمق هو طريقتك."},
+  web:    {l:"تطوير الويب",       i:"🌐", c:"#22d3ee", d:"تحب أن يرى الناس ما بنيته فوراً. الويب أسرع طريق لإيصال أفكارك للعالم."},
+  mob:    {l:"تطوير تطبيقات الجوال",i:"📱",c:"#4ade80",d:"ملايين في جيوب الناس. أنت تريد تبني شيئاً يلمسونه يومياً."},
+  uiux:   {l:"تجربة المستخدم",    i:"🎨", c:"#f472d0", d:"تفكيرك يبدأ من الإنسان. الواجهات الجميلة والتجارب السلسة هي ما تراه أهم شيء في أي منتج."},
+  pm:     {l:"إدارة المنتجات",    i:"🎯", c:"#2dd4bf", d:"تُجيد التوازن بين ما يريده المستخدم وما يحتاجه العمل وما يستطيعه الفريق. القيادة وبناء الأشياء الصحيحة هي دورك."},
+  infra:  {l:"هندسة الأنظمة",    i:"🏗️", c:"#fb923c", d:"تريد بناء بنية تتحمل الضغط وتعمل بلا توقف. الموثوقية والاستمرارية هي قيمك الجوهرية."},
+  devops: {l:"DevOps والأتمتة",   i:"⚙️", c:"#fbbf24", d:"كل ما يمكن أتمتته يجب أتمتته. تريد أن تعمل الأنظمة بسلاسة دون تدخل بشري مستمر."},
+  emerging:{l:"التقنيات الناشئة", i:"🚀", c:"#e879f9", d:"المجالات التي لم تنضج بعد تشدّك أكثر من المستقرة. أنت من يريد بناء الغد قبل أن يصبح حاضراً."},
+  iot:    {l:"إنترنت الأشياء",    i:"🌿", c:"#6ee7b7", d:"الجمع بين الأجهزة الفيزيائية والبرمجيات يُثير خيالك. الذكاء في كل مكان هو حلمك."},
+};
+
+let cur=0, anss=new Array(25).fill(null);
+const TOT=25;
+
+function pick(el){
+  const s=el.closest('.qsec');
+  s.querySelectorAll('.opt').forEach(o=>{o.classList.remove('sel');o.querySelector('.dot').textContent='';});
+  el.classList.add('sel'); el.querySelector('.dot').textContent='✓';
+  anss[cur]=el;
+  const nb=document.getElementById('nb'+cur);
+  if(nb) nb.disabled=false;
+}
+function updPg(){
+  const pct=Math.round((cur/TOT)*100);
+  document.getElementById('pgf').style.width=pct+'%';
+  document.getElementById('pgt').textContent=cur+' / '+TOT;
+}
+function nxt(){
+  if(!anss[cur])return;
+  document.querySelectorAll('.qsec')[cur].classList.remove('active');
+  cur++;
+  document.querySelectorAll('.qsec')[cur].classList.add('active');
+  updPg(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function prv(){
+  if(cur===0)return;
+  document.querySelectorAll('.qsec')[cur].classList.remove('active');
+  cur--;
+  document.querySelectorAll('.qsec')[cur].classList.add('active');
+  updPg(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function showRes(){
+  const scores={};
+  anss.forEach(o=>{
+    if(!o)return;
+    const w=JSON.parse(o.dataset.w);
+    for(const[k,v]of Object.entries(w)) scores[k]=(scores[k]||0)+v;
+  });
+  const tot=Object.values(scores).reduce((s,v)=>s+v,0);
+  const pcts={};
+  for(const[k,v]of Object.entries(scores)) pcts[k]=Math.round((v/tot)*100);
+  const sorted=Object.entries(pcts).sort((a,b)=>b[1]-a[1]);
+  const[tk,tp]=sorted[0];
+  const tf=F[tk]||{l:tk,i:'⚡',c:'#4fa3f7',d:'مجال رائع ينتظرك!'};
+  document.getElementById('micon').textContent=tf.i;
+  document.getElementById('mname').textContent=tf.l;
+  document.getElementById('mpct').textContent=tp+'%';
+  document.getElementById('mdesc').textContent=tf.d;
+  document.getElementById('rtitle').textContent=tf.l;
+  const bb=document.getElementById('barsbox');
+  bb.innerHTML='';
+  sorted.slice(0,9).forEach(([k,p])=>{
+    const f=F[k]||{l:k,i:'◆',c:'#94a3b8'};
+    const d=document.createElement('div');d.className='bitem';
+    d.innerHTML=`<div class="bhead"><span class="bname">${f.i} ${f.l}</span><span class="bpct">${p}%</span></div><div class="btrack"><div class="bfill" style="width:0%;background:${f.c}" data-w="${p}"></div></div>`;
+    bb.appendChild(d);
+  });
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('results').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{document.querySelectorAll('.bfill').forEach(e=>e.style.width=e.dataset.w+'%');},200);
+}
+function restart(){
+  anss=new Array(25).fill(null); cur=0;
+  document.querySelectorAll('.qsec').forEach((s,i)=>{
+    s.classList.toggle('active',i===0);
+    s.querySelectorAll('.opt').forEach(o=>{o.classList.remove('sel');o.querySelector('.dot').textContent='';});
+    const nb=document.getElementById('nb'+i);
+    if(nb)nb.disabled=true;
+  });
+  document.getElementById('results').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  updPg(); window.scrollTo({top:0,behavior:'smooth'});
+}
+updPg();
+</script>
+</body>
+</html>
